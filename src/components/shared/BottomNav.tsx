@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { BiSolidDish } from 'react-icons/bi';
 import { FaHome, FaClipboardList, FaUtensils, FaEllipsisH } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import Modal from './Modal';
 
 const BottomNav = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const openModal = () => setIsModalOpen(true)
+    const closeModal = () =>setIsModalOpen(false)
   const [activeTab, setActiveTab] = React.useState('home');
   const navigate = useNavigate();
 
@@ -50,6 +55,13 @@ const BottomNav = () => {
           <FaEllipsisH className="text-xl mb-1" />
           <span className="text-xs">More</span>
         </button>
+
+        <button onClick={openModal} className='absolute bottom-6 bg-[#f6b100 rounded-full p-4 items-center text-[#f5f5f5]'>
+<BiSolidDish size={40} />
+        </button>
+<Modal isOpen={isModalOpen} onClose={closeModal} title="Create Order">
+
+</Modal>
       </div>
     </div>
   );
