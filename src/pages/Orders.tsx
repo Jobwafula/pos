@@ -32,13 +32,13 @@ function Orders() {
 
   // Status color mapping
   const statusColors = {
-    preparing: 'text-yellow-500 bg-yellow-500/10',
-    served: 'text-blue-500 bg-blue-500/10',
-    paid: 'text-green-500 bg-green-500/10',
+    preparing: 'text-yellow-400 bg-yellow-400/20',
+    served: 'text-blue-400 bg-blue-400/20',
+    paid: 'text-green-400 bg-green-400/20',
   };
 
   return (
-    <section className="h-screen bg-[#1f1f1f] overflow-hidden">
+    <section className="h-screen bg-[#1f1f1f] overflow-hidden pb-20">
       <div className="flex items-center justify-between px-8 py-4">
         <h1 className="text-2xl text-center text-[#f5f5f5] font-bold tracking-wide">
           Orders
@@ -61,32 +61,35 @@ function Orders() {
       </div>
 
       {/* Order Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 px-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 px-8 max-w-[1280px] mx-auto">
         {filteredOrders.length > 0 ? (
           filteredOrders.map((order) => (
             <div
               key={order.id}
-              className="w-[400px] bg-[#262626] p-4 rounded-lg shadow-md hover:bg-[#2f2f2f] transition-all duration-200 hover:shadow-lg cursor-pointer"
+              className="w-[400px] bg-[#262626] p-4 rounded-lg shadow-md hover:bg-[#2f2f2f] hover:scale-105 transition-all duration-200 hover:shadow-lg cursor-pointer"
+              role="button"
+              tabIndex={0}
+              aria-label={`Order ${order.id}`}
             >
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center gap-2">
                 <div>
-                  <div className="flex items-center">
+                  <div className="flex items-center gap-2">
                     <h3 className="text-[#f5f5f5] font-semibold text-lg">{order.id}</h3>
                     <span
-                      className={`ml-2 text-xs px-2 py-1 rounded-full font-medium ${statusColors[order.status]}`}
+                      className={`text-xs px-2 py-1 rounded-full font-medium ${statusColors[order.status]}`}
                     >
                       {order.status}
                     </span>
                   </div>
-                  <p className="text-[#ababab] text-sm mt-1">
+                  <p className="text-[#ababab] text-sm mt-2">
                     Table {order.table} • {order.items} items
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="text-[#f5f5f5] font-bold text-lg">
-                    ${order.amount.toFixed(2)}
+                  <p className="text-[#f5f5f5] font-bold text-base">
+                    Total: ${order.amount.toFixed(2)}
                   </p>
-                  <div className="flex items-center justify-end text-[#ababab] text-sm mt-1">
+                  <div className="flex items-center justify-end text-[#ababab] text-sm mt-2">
                     <FiClock className="mr-1" size={14} />
                     {order.time}
                   </div>
