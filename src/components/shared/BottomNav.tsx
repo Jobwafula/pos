@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BiSolidDish } from 'react-icons/bi';
 import { FaHome, FaClipboardList, FaUtensils, FaEllipsisH } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Modal from './Modal';
 
 const BottomNav = () => {
@@ -12,10 +12,14 @@ const BottomNav = () => {
     const [customerPhone, setCustomerPhone] = useState('');
     const [activeTab, setActiveTab] = React.useState('home');
     const navigate = useNavigate();
+    const location = useLocation();
     const [personCount, setPersonCount] = useState(1);
 
+    // Check if current route is /tables or /menu
+    const isDisabledRoute = ['/tables', '/menu'].includes(location.pathname);
+
     // Function to handle navigation and active tab state
-    const handleNavigation = (tab, path) => {
+    const handleNavigation = (tab: string, path: string) => {
         setActiveTab(tab);
         navigate(path);
     };
@@ -26,12 +30,9 @@ const BottomNav = () => {
 
     // Handler for creating order
     const handleCreateOrder = () => {
-        // Close modal after creating order
         closeModal();
-        // Redirect to tables page
-        navigate('/tables');
-        setActiveTab('tables'); // Update active tab to reflect navigation
-        // Add your order creation logic here if needed
+        navigate('/tables', { state: { customerName, customerPhone, personCount } });
+        setActiveTab('tables');
     };
 
     return (
@@ -73,7 +74,12 @@ const BottomNav = () => {
                     <span className="text-xs">More</span>
                 </button>
 
-                <button onClick={openModal} className='absolute bottom-6 bg-[#f6b100] rounded-full p-4 items-center text-[#f5f5f5]'>
+                <button
+                    onClick={openModal}
+                    className={`absolute bottom-6 bg-[#f6b100] rounded-full p-4 items-center text-[#f5f5f5] ${isDisabledRoute ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#e6a900]'}`}
+                    disabled={isDisabledRoute}
+                    aria-label="Create Order"
+                >
                     <BiSolidDish size={40} />
                 </button>
                 <Modal isOpen={isModalOpen} onClose={closeModal} title="Create Order">
