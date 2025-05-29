@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import BottomNav from '../components/shared/BottomNav';
+import { useNavigate } from 'react-router-dom';
 
 // Define the table type
 type Table = {
@@ -11,6 +12,7 @@ type Table = {
 
 function Tables() {
   const [activeTab, setActiveTab] = useState('all');
+  const navigate = useNavigate();
 
   // Sample table data
   const tables: Table[] = [
@@ -31,6 +33,11 @@ function Tables() {
   const statusColors = {
     booked: 'text-red-400 bg-red-400/20',
     vacant: 'text-green-400 bg-green-400/20',
+  };
+
+  // Handler for table click
+  const handleTableClick = (tableId: string) => {
+    navigate('/menu', { state: { tableId } });
   };
 
   return (
@@ -62,6 +69,7 @@ function Tables() {
           filteredTables.map((table) => (
             <div
               key={table.id}
+              onClick={() => handleTableClick(table.id)}
               className="w-[400px] bg-[#262626] p-4 rounded-lg shadow-md hover:bg-[#2f2f2f] hover:scale-105 transition-all duration-200 hover:shadow-lg cursor-pointer"
               role="button"
               tabIndex={0}

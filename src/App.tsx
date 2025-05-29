@@ -5,6 +5,7 @@ import Orders from './pages/Orders'
 import Home from './pages/Home'
 import Header from './components/shared/Header'
 import Tables from './pages/Tables'
+import Menu from './pages/Menu'
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path='/auth' element={<Auth />} />
         <Route path="/orders" element={<Orders  />} />
         <Route path='/tables' element={<Tables />} />
+        <Route path='/menu' element={<Menu />}  />
         
          
       </Routes>
