@@ -2,31 +2,34 @@ import React, { useState } from 'react';
 import { BiSolidDish } from 'react-icons/bi';
 import { FaHome, FaClipboardList, FaUtensils, FaEllipsisH } from 'react-icons/fa';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCustomerName, setCustomerPhone, setPersonCount } from '../../redux/slices/customerSlice'; // Adjust path as needed
 import Modal from './Modal';
 
 const BottomNav = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
-    const [customerName, setCustomerName] = useState('');
-    const [customerPhone, setCustomerPhone] = useState('');
-    const [activeTab, setActiveTab] = React.useState('home');
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    const [personCount, setPersonCount] = useState(1);
+
+    // Get customer data from Redux store
+    const { customerName, customerPhone, personCount } = useSelector((state: any) => state.customer);
 
     // Check if current route is /tables or /menu
     const isDisabledRoute = ['/tables', '/menu'].includes(location.pathname);
 
     // Function to handle navigation and active tab state
+    const [activeTab, setActiveTab] = React.useState('home');
     const handleNavigation = (tab: string, path: string) => {
         setActiveTab(tab);
         navigate(path);
     };
 
     // Handlers for increment and decrement
-    const handleIncrement = () => setPersonCount((prev) => prev + 1);
-    const handleDecrement = () => setPersonCount((prev) => (prev > 1 ? prev - 1 : 1));
+    const handleIncrement = () => dispatch(setPersonCount(personCount + 1));
+    const handleDecrement = () => dispatch(setPersonCount(personCount > 1 ? personCount - 1 : 1));
 
     // Handler for creating order
     const handleCreateOrder = () => {
@@ -89,7 +92,7 @@ const BottomNav = () => {
                             <input
                                 type="text"
                                 value={customerName}
-                                onChange={(e) => setCustomerName(e.target.value)}
+                                onChange={(e) => dispatch(setCustomerName(e.target.value))}
                                 className="w-full bg-[#333] text-[#f5f5f5] p-2 rounded"
                                 placeholder="Enter customer name"
                             />
@@ -100,7 +103,7 @@ const BottomNav = () => {
                             <input
                                 type="tel"
                                 value={customerPhone}
-                                onChange={(e) => setCustomerPhone(e.target.value)}
+                                onChange={(e) => dispatch(setCustomerPhone(e.target.value))}
                                 className="w-full bg-[#333] text-[#f5f5f5] p-2 rounded"
                                 placeholder="Enter phone number"
                             />

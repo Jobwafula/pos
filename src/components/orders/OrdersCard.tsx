@@ -1,4 +1,3 @@
-import React from 'react'
 
 function OrdersCard() {
      const [activeTab, setActiveTab] = useState("all");
